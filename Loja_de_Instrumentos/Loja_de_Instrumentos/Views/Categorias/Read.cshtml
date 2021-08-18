@@ -1,0 +1,37 @@
+﻿@model List<Categoria>
+
+    <h2>Lista de Intrumentos de @ViewBag.categoria</h2>
+    <p>Número de Instrumentos: @Model.Count</p>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Instrumento instrumento in ViewBag.listaDeInstrumentos)
+            {
+                <tr>
+                    <th scope="row">@Html.DisplayFor(Model => instrumento.Id)</th>
+                    <td>@Html.DisplayFor(Model => instrumento.Brand)</td>
+                    <td>@Html.DisplayFor(Model => instrumento.Model)</td>
+                    <td>@Html.DisplayFor(Model => instrumento.Type)</td>
+                    <td>
+                        <a asp-controller="Instrumentos" asp-action="Read" asp-route-id="@instrumento.Id" class="card-link">Detalhes</a>
+                        @foreach (Categoria categoria in Model.Where(x=> x.InstrumentoId == instrumento.Id))
+                        {
+                            <a asp-controller="Categorias" asp-action="Update" asp-route-id="@categoria.Id" class="card-link">Editar</a>
+                            <a asp-controller="Categorias" asp-action="Confirm" asp-route-id="@categoria.Id" class="card-link">Apagar</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<a class="btn btn-primary" asp-controller="Categorias" asp-action="Index">Voltar</a>

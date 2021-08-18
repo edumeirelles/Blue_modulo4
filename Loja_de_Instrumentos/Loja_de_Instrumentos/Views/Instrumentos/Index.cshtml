@@ -1,0 +1,75 @@
+﻿@model List<Instrumento>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<h2>Lista de Instrumentos</h2>
+@if (SignInManager.IsSignedIn(User))
+{
+    <a class="btn btn-primary" asp-controller="Instrumentos" asp-action="Create">Criar um novo Instrumento!</a>
+}
+
+<br />
+<br />
+
+<form>
+    <div class="input-group mb-3" style="width: 50%">
+        <input type="text" name="search" class="form-control" placeholder="Buscar" aria-label="Buscar ID" aria-describedby="button-addon2">
+        <select name="service" class="form-control">
+            <option value="sql" selected>Dados SQL</option>
+            <option value="static">Dados Static</option>
+        </select>
+        <input type="submit" class="btn btn-outline-secondary" id="button-addon2" value="Buscar!" />
+    </div>
+</form>
+
+@if (!ViewBag.order)
+{
+    <a class="btn btn-primary" href="?order=true">Ordenar por Modelo</a>
+}
+else
+{ <a class="btn btn-primary" asp-controller="Instrumentos" asp-action="Index">Retornar Ordenação Original</a>}
+<br />
+<br />
+@foreach (Instrumento tipo in ViewBag.type)
+{
+    <a class="btn btn-primary" href="?type=@(tipo.Type)">@tipo.Type</a>
+}
+
+<br />
+<br />
+
+<div class="row">
+
+    @foreach (Instrumento instrument in Model)
+    {
+        <div class="card col-md-4 col-sm-5 clearfix ">
+            <img src="@Html.DisplayFor(Model => instrument.Link)" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(Model => instrument.Brand) @Html.DisplayFor(Model => instrument.Model)</h5>
+                <p class="card-text">@Html.DisplayFor(Model => instrument.Type)</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="card-text list-group-item">@Html.DisplayFor(Model => instrument.Description)</li>
+                <li class="list-group-item">Preço: R$ @Html.DisplayFor(Model => instrument.Price)</li>
+            </ul>
+            <div class="card-footer">
+                @if (ViewBag.source == "sql")
+                {
+                    <a asp-controller="Instrumentos" asp-action="Read" asp-route-id="@instrument.Id" class="card-link">Detalhes</a>
+                    <a asp-controller="Instrumentos" asp-action="Update" asp-route-id="@instrument.Id" class="card-link">Editar</a>
+                    <a asp-controller="Instrumentos" asp-action="Confirm" asp-route-id="@instrument.Id" class="card-link">Apagar</a>
+                }
+                else
+                {
+                    <p> Ações indisponíveis para modo Static</p>
+                }
+
+            </div>
+        </div>
+    }
+</div>
+<br />
+<br />
+<p>Total de Instrumentos cadastrados: @ViewBag.total</p>
+<p>Instrumento mais caro: @ViewBag.maxprice</p>
+<p>Valor de todos os instrumentos somados: R$ @ViewBag.sum</p>

@@ -1,0 +1,24 @@
+﻿@model List<Categoria>
+
+<h2>Lista de Categorias</h2>
+<a class="btn btn-primary" asp-controller="Categorias" asp-action="Create">Categorizar Instrumentos</a>
+<br />
+<br />
+
+
+<div class="row">
+
+    @foreach (Categoria categoria in Model.GroupBy(x=> x.InstrumentoCategoria).Select(x=> x.First()).OrderBy(x=> x.InstrumentoCategoria).ToList())
+    {
+        <div class="card" style="width: 18rem;">
+            
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(Model => categoria.InstrumentoCategoria)</h5>
+                
+                <a asp-controller="Categorias" asp-action="Read" asp-route-categoria="@categoria.InstrumentoCategoria" class="card-link">Detalhes</a>
+            </div>
+        </div>
+    }
+</div>
+
+

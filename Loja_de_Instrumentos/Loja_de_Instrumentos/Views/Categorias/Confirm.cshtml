@@ -1,0 +1,5 @@
+﻿@model Categoria
+
+<h3>Deseja remover a categoria @Model.InstrumentoCategoria do Instrumento @ViewBag.instrumento?</h3>
+<a class="btn btn-primary" asp-controller="Categorias" asp-action="Delete" asp-route-id="@Model.Id">Sim</a>
+<a class="btn btn-danger" asp-controller="Categorias" asp-action="Index">Não</a>

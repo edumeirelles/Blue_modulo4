@@ -1,0 +1,5 @@
+﻿@model Instrumento
+
+<h3>Deseja remover o instrumento @Model.Brand @Model.Model?</h3>
+<a class="btn btn-primary" asp-controller="Instrumentos" asp-action="Delete" asp-route-id="@Model.Id">Sim</a>
+<a class="btn btn-danger" asp-controller="Instrumentos" asp-action="Index">Não</a>

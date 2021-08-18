@@ -1,0 +1,23 @@
+﻿@model Categoria
+
+<h2>Categorizar Instrumentos</h2>
+
+<div class="row">
+    <form class="col-md-4" asp-action="Create">
+        <div class="form-group">
+            <label class="control-label" asp-for="InstrumentoId"></label>
+            <select class="form-control" asp-for="InstrumentoId" asp-items="ViewBag.listaDeInstrumentos">
+                <option value="">--Selecione um Instrumento--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="InstrumentoId"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label" asp-for="InstrumentoCategoria"></label>
+            <input class="form-control" asp-for="InstrumentoCategoria" />
+            <span class="text-danger" asp-validation-for="InstrumentoCategoria"></span>
+        </div>
+        
+        <input type="submit" value="Adicionar Categoria!" class="btn btn-primary" />
+        <a class="btn btn-primary" asp-controller="Categorias" asp-action="Index">Voltar</a>
+    </form>
+</div>
