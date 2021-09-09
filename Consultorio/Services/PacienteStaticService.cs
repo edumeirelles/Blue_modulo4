@@ -43,7 +43,7 @@ namespace Consultorio.Services
             
             try {
                 List<Paciente> pacientes = getPacientes();
-                paciente.Id = pacientes.Count() + 1;
+                paciente.Id = pacientes.Count + 1;
                 pacientes.Add(paciente);
                 return true;
             } 

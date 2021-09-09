@@ -44,6 +44,29 @@ namespace Consultorio.Migrations
                     b.ToTable("Consulta");
                 });
 
+            modelBuilder.Entity("Consultorio.Models.Funcionario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("Nascimento")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Funcionario");
+                });
+
             modelBuilder.Entity("Consultorio.Models.Paciente", b =>
                 {
                     b.Property<int>("Id")

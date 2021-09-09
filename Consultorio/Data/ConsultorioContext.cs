@@ -14,5 +14,6 @@ namespace Consultorio.Data
 
         public DbSet<Paciente> Paciente { get; set; }
         public DbSet<Consulta> Consulta { get; set; }
+        public DbSet<Funcionario> Funcionario { get; set; }
     }
 }

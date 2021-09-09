@@ -64,8 +64,8 @@ namespace Consultorio.Controllers
 
         public IActionResult Update(int? id)
         {
-            var pacientes = pacienteService.getAll();
-            ViewBag.listaDePacientes = new SelectList(pacientes, "Id", "Nome");
+            
+            ViewBag.listaDePacientes = new SelectList(pacienteService.getAll(), "Id", "Nome");
             Consulta consulta = service.get(id);
             return consulta != null ?
                 View(consulta) :

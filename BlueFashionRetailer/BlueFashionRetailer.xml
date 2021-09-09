@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlueFashionRetailer</name>
+    </assembly>
+    <members>
+        <member name="M:BlueFashionRetailer.Controllers.AuthController.Register(Microsoft.AspNetCore.Identity.IdentityUser)">
+            <summary>
+            Cria um novo usuário
+            </summary>
+            <param name="identityUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.AuthController.Token(Microsoft.AspNetCore.Identity.IdentityUser)">
+            <summary>
+            Gera Token de autenticação
+            </summary>
+            <param name="identityUser"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.Index">
+            <summary>
+            Retorna uma lista de todos os porodutos existentes no banco de dados
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.Index(System.Nullable{System.Int32})">
+            <summary>
+            Retorna um produto indentificado pelo ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.Create(BlueFashionRetailer.Models.Product)">
+            <summary>
+            Cria um novo produto
+            </summary>
+            <param name="prod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.Update(BlueFashionRetailer.Models.Product)">
+            <summary>
+            Edita um produto existente
+            </summary>
+            <param name="prod"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Apaga um regitro de produto do banco de dados
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueFashionRetailer.Controllers.ProductController.ProductsByRole(System.String)">
+            <summary>
+            Retorna os produtos de acordo com as Roles
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
