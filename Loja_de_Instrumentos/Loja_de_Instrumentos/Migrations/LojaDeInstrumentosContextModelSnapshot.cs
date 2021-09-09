@@ -19,12 +19,51 @@ namespace Loja_de_Instrumentos.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Loja_de_Instrumentos.Models.Acessorio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Price")
+                        .IsRequired()
+                        .HasColumnType("float");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Acessorio");
+                });
+
             modelBuilder.Entity("Loja_de_Instrumentos.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AcessorioId")
+                        .HasColumnType("int");
 
                     b.Property<string>("InstrumentoCategoria")
                         .IsRequired()
@@ -34,6 +73,8 @@ namespace Loja_de_Instrumentos.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AcessorioId");
 
                     b.HasIndex("InstrumentoId");
 
@@ -219,10 +260,12 @@ namespace Loja_de_Instrumentos.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -259,10 +302,12 @@ namespace Loja_de_Instrumentos.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -274,6 +319,10 @@ namespace Loja_de_Instrumentos.Migrations
 
             modelBuilder.Entity("Loja_de_Instrumentos.Models.Categoria", b =>
                 {
+                    b.HasOne("Loja_de_Instrumentos.Models.Acessorio", null)
+                        .WithMany("Categoria")
+                        .HasForeignKey("AcessorioId");
+
                     b.HasOne("Loja_de_Instrumentos.Models.Instrumento", "Instrumento")
                         .WithMany("Categoria")
                         .HasForeignKey("InstrumentoId")
@@ -332,6 +381,11 @@ namespace Loja_de_Instrumentos.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Loja_de_Instrumentos.Models.Acessorio", b =>
+                {
+                    b.Navigation("Categoria");
                 });
 
             modelBuilder.Entity("Loja_de_Instrumentos.Models.Instrumento", b =>
