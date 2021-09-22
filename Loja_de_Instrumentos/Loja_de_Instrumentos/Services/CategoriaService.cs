@@ -8,8 +8,8 @@ namespace Loja_de_Instrumentos.Services
 {
     public class CategoriaService : ICategoriaService
     {
-        LojaDeInstrumentosContext _context;
-        public CategoriaService(LojaDeInstrumentosContext context)
+        Context _context;
+        public CategoriaService(Context context)
         {
             _context = context;
         }

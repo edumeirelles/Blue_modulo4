@@ -1,4 +1,6 @@
 using Loja_de_Instrumentos.Data;
+using Loja_de_Instrumentos.Hubs;
+using Loja_de_Instrumentos.Models;
 using Loja_de_Instrumentos.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,15 +26,25 @@ namespace Loja_de_Instrumentos
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<LojaDeInstrumentosContext>(options => 
+            services.AddHttpContextAccessor();
+
+            services.AddDbContext<Context>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("CSLojaDeInstrumentos")));
 
             services.AddTransient<IInstrumentosService, InstrumentosSQLService>();
+
             services.AddTransient<ICategoriaService, CategoriaService>();
+
             services.AddTransient<InstrumentosStaticService>();
+
             services.AddTransient<InstrumentosSQLService>();
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<LojaDeInstrumentosContext>();
+            services.AddDefaultIdentity<AppUser>().AddEntityFrameworkStores<Context>();
+
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -61,10 +73,12 @@ namespace Loja_de_Instrumentos
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

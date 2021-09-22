@@ -29,6 +29,9 @@ namespace BlueWebChat.Migrations
                     b.Property<DateTime>("Datetime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("TargetName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -36,10 +39,18 @@ namespace BlueWebChat.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("targetId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("targetUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("userId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("targetUserId");
 
                     b.HasIndex("userId");
 
@@ -261,11 +272,17 @@ namespace BlueWebChat.Migrations
 
             modelBuilder.Entity("BlueWebChat.Models.Message", b =>
                 {
+                    b.HasOne("BlueWebChat.Models.AppUser", "targetUser")
+                        .WithMany()
+                        .HasForeignKey("targetUserId");
+
                     b.HasOne("BlueWebChat.Models.AppUser", "appUser")
                         .WithMany("Messages")
                         .HasForeignKey("userId");
 
                     b.Navigation("appUser");
+
+                    b.Navigation("targetUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

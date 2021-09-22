@@ -1,18 +1,18 @@
-﻿using BlueWebChat.Data;
-using BlueWebChat.Hubs;
-using BlueWebChat.Models;
+﻿using Loja_de_Instrumentos.Data;
+using Loja_de_Instrumentos.Hubs;
+using Loja_de_Instrumentos.Models;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlueWebChat.Controllers
+namespace Loja_de_Instrumentos.Controllers
 {
-    [Authorize]
+
+    
     public class ChatController : Controller
     {
         public readonly UserManager<AppUser> _userManager;
@@ -29,30 +29,6 @@ namespace BlueWebChat.Controllers
             ViewBag.CurrentUserName = currentUser.UserName;
             ViewBag.Messages = _context.Message.ToList();
             return View();
-        }
-
-        public async Task<IActionResult> Private()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            List<IdentityUser> allUsers = _context.Users.Where(u => u.UserName != currentUser.UserName).ToList();
-            return View(allUsers);
-        }
-
-        public async Task<IActionResult> PrivateMessage(string id)
-        {
-            var current = await _userManager.GetUserAsync(User);
-            var target = await _userManager.FindByNameAsync(id);
-
-            var sentMessages = _context.Message.Where(m => m.UserName == current.UserName && m.TargetName == target.UserName).ToList();
-            var receivedMessages = _context.Message.Where(m => m.UserName == target.UserName && m.TargetName == current.UserName).ToList();
-            var messages = sentMessages.Concat(receivedMessages).ToList();
-
-            ViewBag.Messages = messages;
-            ViewBag.CurrentUser = current;
-            ViewBag.TargetUser = target;
-
-            return View();
-
         }
 
         public async Task<IActionResult> SendMessage(string Text, [FromServices] IHubContext<ChatHub> chat)

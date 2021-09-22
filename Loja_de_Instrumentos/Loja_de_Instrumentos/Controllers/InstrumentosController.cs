@@ -38,14 +38,31 @@ namespace Loja_de_Instrumentos.Controllers
             ViewBag.type = _service.GetAll().GroupBy(x=> x.Type).Select(x=> x.First()).OrderBy(x => x.Type).ToList();
             ViewBag.order = order;
             ViewBag.total = type != null ? _service.GetAll().FindAll(x => x.Type == type).Count : _service.GetAll().Count;
-            ViewBag.sum = type != null ? Math.Round((decimal)_service.GetAll().FindAll(x=> x.Type == type).Sum(x => x.Price), 2) : Math.Round((decimal)_service.GetAll().Sum(x => x.Price), 2);
+
+            ViewBag.sum = type != null ? Math.Round((decimal)_service.GetAll().FindAll(x=> x.Type == type).Sum(x => x.Price), 2) :
+                Math.Round((decimal)_service.GetAll().Sum(x => x.Price), 2);
+            
             ViewBag.maxprice = type != null ? 
                 
-                _service.GetAll().FindAll(x => x.Type == type).Find(x => x.Price == _service.GetAll().FindAll(x => x.Type == type).Max(x => x.Price)).Brand
-                + " " + _service.GetAll().FindAll(x => x.Type == type).Find(x => x.Price == _service.GetAll().FindAll(x => x.Type == type).Max(x => x.Price)).Model : 
+                _service.GetAll()
+                .FindAll(x => x.Type == type)
+                .Find(x => x.Price == _service.GetAll()
+                .FindAll(x => x.Type == type)
+                .Max(x => x.Price)).Brand
+                + " " + 
+                _service.GetAll()
+                .FindAll(x => x.Type == type)
+                .Find(x => x.Price == _service.GetAll()
+                .FindAll(x => x.Type == type)
+                .Max(x => x.Price)).Model : 
 
-                _service.GetAll().Find(x => x.Price == _service.GetAll().Max(x => x.Price)).Brand 
-                + " " + _service.GetAll().Find(x => x.Price == _service.GetAll().Max(x => x.Price)).Model;
+                _service.GetAll()
+                .Find(x => x.Price == _service.GetAll()
+                .Max(x => x.Price)).Brand 
+                + " " + 
+                _service.GetAll()
+                .Find(x => x.Price == _service.GetAll()
+                .Max(x => x.Price)).Model;
             
         }
         public IActionResult Index(string search, string type, bool order = false, string service = "sql")

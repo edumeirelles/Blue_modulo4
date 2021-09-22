@@ -9,9 +9,9 @@ namespace Loja_de_Instrumentos.Controllers
 {
     public class AcessoriosController : Controller
     {
-        private readonly LojaDeInstrumentosContext _context;
+        private readonly Context _context;
 
-        public AcessoriosController(LojaDeInstrumentosContext context)
+        public AcessoriosController(Context context)
         {
             _context = context;
         }

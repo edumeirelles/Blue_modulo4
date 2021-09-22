@@ -1,33 +1,36 @@
-﻿@model Message
-
-@{ 
+﻿@{
     var messages = ViewBag.Messages as List<Message>;
-    var username = ViewBag.CurrentUserName as string;
+    var current = ViewBag.CurrentUser as AppUser;
+    var userName = current.UserName;
+    var target = ViewBag.TargetUser as AppUser;
+    var targetName = target.UserName;
 }
 
 <style>
-    .chat{
+    .chat {
         max-height: 500px;
         overflow-y: scroll;
-        border: 1px solid silver;
+        border: 1px solid #ffd800;
     }
-        .chat::-webkit-scrollbar{
+
+        .chat::-webkit-scrollbar {
             width: 5px;
         }
-        .chat::-webkit-scrollbar-thumb{
+
+        .chat::-webkit-scrollbar-thumb {
             box-shadow: inset 0 0 6px rgba(0,0,0,.3);
             background-color: silver;
         }
 </style>
 
-<h2>Chat da Blue</h2>
+<h2>Chat @targetName</h2>
 <div class="bg-light chat jumbotron" id="chat">
     @if (messages != null)
     {
-        @foreach(var message in messages.OrderBy(m => m.Datetime))
+        @foreach (var message in messages.OrderBy(m => m.Datetime))
         {
-            var position = username == message.UserName ? "text-right" : "text-left";
-            var alert = username == message.UserName ? "alert-info" : "alert-secondary";
+            var position = userName == message.UserName ? "text-right" : "text-left";
+            var alert = userName == message.UserName ? "alert-info" : "alert-secondary";
             <div class="row">
                 <div class="col-md-12 @position">
                     <small class="text-dark">@message.UserName</small>
@@ -48,16 +51,19 @@
 </form>
 
 @section scripts
-{ 
+{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
-        var username = "@username";
+        var username = "@userName";
+        var targetName = "@targetName"
+
         var objDiv = document.getElementById("chat");
         objDiv.scrollTop = objDiv.scrollHeight;
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chathub").build();
+
 
         function formataData(dateString) {
             var date = new Date(Date.parse(dateString));
@@ -69,7 +75,7 @@
             return dateStr;
         }
 
-        connection.on("ReceiveMessage", (data) => {
+        connection.on("PrivateMesasge", (data) => {
             var position = data.userName === username ? "text-right" : "text-left";
             var alert = data.userName === username ? "alert-info" : "alert-secondary";
 
@@ -105,23 +111,34 @@
         });
 
         connection.start().then(function () {
-            console.log("Connected");
+            connection.invoke("joinPrivate", targetName);
             document.getElementById("SendMessageForm").addEventListener("submit", function (event) {
                 event.preventDefault();
 
                 var data = {
                     Text: document.getElementById("MessageText").value,
-                    UserName: username
+                    UserName: username,
+                    TargetName: targetName
                 }
+                console.log(data);
 
-                document.getElementById("MessageText").value = "";
-
-                connection.invoke("sendMessage", data).catch(function (err) {
+                document.getElementById("Messagetext").value = "";
+                connection.invoke("sendPrivateMessage", data).catch(function (err) {
                     return console.error(err.toString());
                 });
             });
         }).catch(function (err) {
             return console.error(err.toString());
         });
+
+        window.addEventListener("unload", function () {
+            connection.invoke("leavePrivate", targetName);
+        });
+
+
+
+
+
+
     </script>
-} 
+}

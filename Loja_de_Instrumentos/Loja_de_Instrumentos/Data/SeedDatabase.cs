@@ -16,7 +16,7 @@ namespace Loja_de_Instrumentos.Data
                 Random rdn = new();
 
                 var serviceProvider = scope.ServiceProvider;
-                var context = serviceProvider.GetRequiredService<LojaDeInstrumentosContext>();
+                var context = serviceProvider.GetRequiredService<Context>();
                 context.Database.Migrate();
                 if (!context.Instrumento.Any())
                 {

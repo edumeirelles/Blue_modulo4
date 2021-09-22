@@ -1,4 +1,4 @@
-﻿using Loja_de_Instrumentos.Data;
+﻿    using Loja_de_Instrumentos.Data;
 using Loja_de_Instrumentos.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ namespace Loja_de_Instrumentos.Services
 {
     public class InstrumentosSQLService : IInstrumentosService
     {
-        LojaDeInstrumentosContext _context;
-        public InstrumentosSQLService(LojaDeInstrumentosContext context)
+        Context _context;
+        public InstrumentosSQLService(Context context)
         {
             _context = context;
         }
